@@ -43,11 +43,6 @@ public class Deck : MonoBehaviour
         increment = 0f;
         deck = GenerateDeck();
         Shuffle(deck);
-        foreach (int card in deck)
-        {
-            Console.WriteLine(card.ToString());
-        }
-
     }
 
     // Update is called once per frame

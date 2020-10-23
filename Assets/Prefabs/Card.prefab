@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hand: {fileID: 0}
-  Rspeed: 1
+  Rspeed: 10
   suit: 0
   rank: 0
   cardState: 0

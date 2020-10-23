@@ -13,7 +13,7 @@ public enum CardState { Hand, Dragged, Played};
 public class Card : MonoBehaviour
 {
     public Hand hand; 
-    [SerializeField] float Rspeed = 10f; //rotating speed
+    [SerializeField] float Rspeed = 20f; //rotating speed
     [SerializeField] Suit suit; //suit
     [SerializeField] Rank rank; //rank
     [SerializeField] CardState cardState;
@@ -50,17 +50,7 @@ public class Card : MonoBehaviour
         }
 
     }
-    /*
-    private void Mouse()
-    {
-
-        if (EventSystem.OnMouseDrag)
-        {
-            print("YES");
-        }
-        //print(hit.collider.transform.gameObject.name);
-    }
-    */
+    //Rescale and rotate the card when cursor enters the collider of the card in hand
     void OnMouseEnter()
     {
         if (cardState == CardState.Hand)
@@ -70,19 +60,18 @@ public class Card : MonoBehaviour
             rotateTo = new Vector3(0, 0, 0);
             oldspeed = 1000f;
             GetComponent<SpriteRenderer>().size = GetComponent<SpriteRenderer>().size*1.2f;
-            //transform.localScale = new Vector3(0.4f, 0.4f, 0);
         }
         m = true;
 
     }
+    //Rescale and rotate the card back when cursor leaves the collider of the card in hand
     void OnMouseExit()
     {
         if (cardState == CardState.Hand)
         {
             moveTo += new Vector3(0, 0, 5);
             rotateTo = oldRotateTo;
-            oldspeed = 1000f;
-            //transform.localScale = new Vector3(0.3f, 0.3f, 0);
+            oldspeed = 50f;
             GetComponent<SpriteRenderer>().size = GetComponent<SpriteRenderer>().size / 1.2f;
             m = false;
         }
@@ -120,16 +109,9 @@ public class Card : MonoBehaviour
         {
             hand.AddCardToHand(gameObject);
             moveTo += new Vector3(0, 0, -5);
-            oldspeed = 20f;
+            oldspeed = 50f;
         }
     }
-
-
-
-    //Rescale and rotate the card when cursor enters the collider of the card in hand
-    
-
-    //Rescale and rotate the card back when cursor leaves the collider of the card in hand
 
     
     //Rotate the card in intended rotation Rotateto
