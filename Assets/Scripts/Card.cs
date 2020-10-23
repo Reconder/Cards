@@ -20,8 +20,6 @@ public class Card : MonoBehaviour
     public int number; //number = suit*13 + rank
     Vector3 moveTo; //Where card should move to
     Vector3 rotateTo; //How card should rotate
-    
-
     public float oldspeed;
     Vector3 oldRotateTo;
     bool m = false;
@@ -43,10 +41,51 @@ public class Card : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Console.WriteLine(Input.mousePosition);
-        Move();
-        Rotate();
-        if (m) { Drag(); }
+        if (cardState != CardState.Played)
+        {
+            Move();
+            Rotate();
+           // Mouse();
+            if (m) { Drag(); }
+        }
+
+    }
+    /*
+    private void Mouse()
+    {
+
+        if (EventSystem.OnMouseDrag)
+        {
+            print("YES");
+        }
+        //print(hit.collider.transform.gameObject.name);
+    }
+    */
+    void OnMouseEnter()
+    {
+        if (cardState == CardState.Hand)
+        {
+            moveTo += new Vector3(0, 0, -5);
+            oldRotateTo = rotateTo;
+            rotateTo = new Vector3(0, 0, 0);
+            oldspeed = 1000f;
+            GetComponent<SpriteRenderer>().size = GetComponent<SpriteRenderer>().size*1.2f;
+            //transform.localScale = new Vector3(0.4f, 0.4f, 0);
+        }
+        m = true;
+
+    }
+    void OnMouseExit()
+    {
+        if (cardState == CardState.Hand)
+        {
+            moveTo += new Vector3(0, 0, 5);
+            rotateTo = oldRotateTo;
+            oldspeed = 1000f;
+            //transform.localScale = new Vector3(0.3f, 0.3f, 0);
+            GetComponent<SpriteRenderer>().size = GetComponent<SpriteRenderer>().size / 1.2f;
+            m = false;
+        }
 
     }
 
@@ -68,6 +107,7 @@ public class Card : MonoBehaviour
     }
 
 
+
     //Check if the card is within the table range, if not, return it back to the hand
     private void CheckPosition()
     {
@@ -87,33 +127,10 @@ public class Card : MonoBehaviour
 
 
     //Rescale and rotate the card when cursor enters the collider of the card in hand
-    void OnMouseEnter()
-    {
-        if (cardState == CardState.Hand)
-        {
-            moveTo += new Vector3(0, 0, -5);
-            oldRotateTo = rotateTo;
-            rotateTo = new Vector3(0, 0, 0);
-            oldspeed = 1000f;
-            transform.localScale = new Vector3(0.4f, 0.4f, 0);
-        }
-        m = true;
-
-    }
+    
 
     //Rescale and rotate the card back when cursor leaves the collider of the card in hand
-    void OnMouseExit()
-    {
-        if (cardState == CardState.Hand)
-        {
-            moveTo += new Vector3(0, 0, 5);
-            rotateTo = oldRotateTo;
-            oldspeed = 1000f;
-            transform.localScale = new Vector3(0.3f, 0.3f, 0);
-            m = false;
-        }
 
-    }
     
     //Rotate the card in intended rotation Rotateto
     private void Rotate()
