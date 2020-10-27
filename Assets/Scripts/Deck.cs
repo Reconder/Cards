@@ -60,31 +60,31 @@ public class Deck : MonoBehaviour
     //Deal() for the button Deal
     public void DealButton()
     {
-        StartCoroutine(Deal());
+        Deal();
     }
     //Deal() for the button Deal 8
     public void Deal8Button()
     {
         while(hand.handCards.Count < 8)
         {
-            dealingCoroutine = StartCoroutine(Deal());
+            Deal();
         }
-        StopCoroutine(dealingCoroutine);
     }
 
     //Deal a card
-    IEnumerator Deal()
+    void Deal()
     {
+        //create a card
         var newCard = Instantiate(cardPrefab, transform.position + new Vector3(0, 0, -1), Quaternion.identity);
-        newCard.GetComponent<Card>().number = deck[0];
+        var cCard = newCard.GetComponent<Card>();
+        cCard.number = deck[0];
+        cCard.oldspeed = 10f;
+        cCard.hand = hand;
+        cCard.SetSuitAndRank(deck[0]);
         newCard.GetComponent<SpriteRenderer>().sprite = cardFaces[deck[0]-1];
-        newCard.GetComponent<Card>().SetSuitAndRank(deck[0]);
-        newCard.GetComponent<Card>().oldspeed = 10f;
-        newCard.GetComponent<Card>().hand = hand;
-        hand.GetComponent<Hand>().AddCardToHand(newCard);
+        hand.AddCardToHand(newCard);
         deck.RemoveAt(0);
         increment -= 0.01f;
-        yield return new WaitForSeconds(0.1f);
     }
 
     //Generate Deck using with cards as numbers
